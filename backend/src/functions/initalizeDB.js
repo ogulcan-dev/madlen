@@ -6,6 +6,14 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const runSeed = async () => {
+    try {
+        const { default: seedModule } = await import("../seed.js");
+    } catch (error) {
+        console.error("Seed import hatası:", error);
+    }
+};
+
 const initializeDB = () => {
     const dbPath = path.join(__dirname, "..", "database", "database.db");
     const dbDir = path.dirname(dbPath);
@@ -55,6 +63,10 @@ const initializeDB = () => {
     db.exec(`PRAGMA foreign_keys = ON;`);
     console.log("Gerekli tablolar oluşturuldu.");
     db.close();
+    
+    // Seed işlemini çalıştır
+    console.log("Seed işlemi başlatılıyor...");
+    runSeed();
 }
 
 export default initializeDB;

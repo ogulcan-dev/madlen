@@ -1,20 +1,15 @@
 #!/bin/sh
 
-# Database'i başlat
-echo "Veritabanı başlatılıyor..."
+echo "Veritabanı ve seed data başlatılıyor..."
 node -e "
 import initializeDB from './src/functions/initalizeDB.js';
 try {
     initializeDB();
-    console.log('Veritabanı başlatıldı.');
+    console.log('Veritabanı ve seed data hazırlandı.');
 } catch (error) {
-    console.log('Veritabanı zaten mevcut veya başlatıldı.');
+    console.error('Veritabanı başlatma hatası:', error);
 }
 "
-
-# Seed data'yı yükle (sadece gerekirse)
-echo "Seed data kontrol ediliyor..."
-node src/seed.js
 
 echo "Uygulama başlatılıyor..."
 exec "$@" 
